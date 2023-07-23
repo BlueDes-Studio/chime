@@ -1,130 +1,7 @@
+import 'package:chime/components/molecules/landingpageanimatable.dart';
 import 'package:chime/config/colorscheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-class LandingPageAnimatableComponent extends StatelessWidget {
-  final double opacity;
-  final String mainAsset;
-  final String heading;
-  final String description;
-
-  final double assetTopSpace;
-  final double headingTopSpace;
-
-  final bool customDescriptionWidget;
-
-  const LandingPageAnimatableComponent({
-    super.key,
-    required this.opacity,
-    required this.mainAsset,
-    required this.heading,
-    this.description = "",
-    this.assetTopSpace = 40,
-    this.headingTopSpace = 80,
-    this.customDescriptionWidget = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    return Opacity(
-      opacity: opacity,
-      child: SizedBox(
-        width: screenWidth,
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top: assetTopSpace)),
-            SvgPicture.asset(mainAsset),
-            Padding(
-              padding: EdgeInsets.only(top: headingTopSpace),
-              child: SizedBox(
-                width: screenWidth * 0.8,
-                child: Text(
-                  heading,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontFamily: "Poppins",
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ),
-            customDescriptionWidget
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: SizedBox(
-                      width: screenWidth,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          TextButton(
-                            style: ButtonStyle(
-                              backgroundColor:
-                                  MaterialStateProperty.all(chimePurple),
-                              fixedSize: MaterialStateProperty.all(
-                                  const Size(150, 30)),
-                              shape: MaterialStateProperty.all(
-                                  const RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                              )),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              "Login",
-                              style: TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          TextButton(
-                            style: ButtonStyle(
-                              fixedSize: MaterialStateProperty.all(
-                                  const Size(150, 30)),
-                              shape: MaterialStateProperty.all(
-                                const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  side: BorderSide(
-                                    color: chimePurple,
-                                    width: 2,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            onPressed: () {},
-                            child: const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                color: chimePurple,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
-                : Padding(
-                    padding: const EdgeInsets.only(top: 20),
-                    child: SizedBox(
-                      width: screenWidth,
-                      child: Text(
-                        description,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 class LandingPages extends StatefulWidget {
   static String route = "app/landing-page";
@@ -174,6 +51,7 @@ class LandingPagesState extends State<LandingPages> {
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -257,6 +135,7 @@ class LandingPagesState extends State<LandingPages> {
                           mainAsset: "assets/student-stress.svg",
                           heading: "keeping track of attendance is a hassle!",
                           description: "we all know the 75% scene",
+                          customDescriptionWidget: Container(),
                         ),
                         LandingPageAnimatableComponent(
                           opacity: opacityLevelBg2,
@@ -266,6 +145,7 @@ class LandingPagesState extends State<LandingPages> {
                               "just one tap from notification screen and your attendance is tracked!",
                           assetTopSpace: 0,
                           headingTopSpace: 30,
+                          customDescriptionWidget: Container(),
                         ),
                         LandingPageAnimatableComponent(
                           opacity: opacityLevelBg3,
@@ -275,6 +155,7 @@ class LandingPagesState extends State<LandingPages> {
                               "Visualise your present as well as future predicted attendance.",
                           assetTopSpace: 0,
                           headingTopSpace: 10,
+                          customDescriptionWidget: Container(),
                         ),
                         LandingPageAnimatableComponent(
                           opacity: opacityLevelBg4,
@@ -283,7 +164,62 @@ class LandingPagesState extends State<LandingPages> {
                               "We Got you! login to never miss your attendance goals",
                           assetTopSpace: 0,
                           headingTopSpace: 10,
-                          customDescriptionWidget: true,
+                          customDescriptionWidgetEnabled: true,
+                          customDescriptionWidget: Padding(
+                            padding: const EdgeInsets.only(top: 20),
+                            child: SizedBox(
+                              width: screenWidth,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              chimePurple),
+                                      fixedSize: MaterialStateProperty.all(
+                                          const Size(150, 30)),
+                                      shape: MaterialStateProperty.all(
+                                          const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(10)),
+                                      )),
+                                    ),
+                                    onPressed: () {},
+                                    child: const Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                      fixedSize: MaterialStateProperty.all(
+                                          const Size(150, 30)),
+                                      shape: MaterialStateProperty.all(
+                                        const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          side: BorderSide(
+                                            color: chimePurple,
+                                            width: 2,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    onPressed: () {},
+                                    child: const Text(
+                                      "Sign Up",
+                                      style: TextStyle(
+                                        color: chimePurple,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),

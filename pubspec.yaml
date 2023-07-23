@@ -37,6 +37,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   flutter_svg: ^2.0.7
   scroll_snap_list: ^0.9.1
+  simple_shadow: ^0.3.1
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,12 @@ flutter:
     - assets/data-trends.svg
     - assets/liquid-bg4.svg
     - assets/helpful-sign.svg
+    - assets/auth-center2.svg
+    - assets/auth-lower.svg
+    - assets/auth-upper-left.svg
+    - assets/auth-or-line.svg
+    - assets/google-logo.svg
+    - assets/google-logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -87,6 +94,11 @@ flutter:
       fonts:
         - asset: fonts/Poppins/Poppins-Regular.ttf
         - asset: fonts/Poppins/Poppins-SemiBold.ttf
+          weight: 400
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter/static/Inter-Regular.ttf
+        - asset: fonts/Inter/static/Inter-SemiBold.ttf
           weight: 400
   #
   # For details regarding fonts from package dependencies,

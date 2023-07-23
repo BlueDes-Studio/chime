@@ -1,4 +1,6 @@
 import 'package:chime/config/colorscheme.dart';
+import 'package:chime/screens/auth/login.dart';
+import 'package:chime/screens/auth/signup.dart';
 import 'package:chime/screens/landingpages/index.dart';
 import 'package:flutter/material.dart';
 
@@ -25,13 +27,17 @@ class Chime extends StatelessWidget {
         useMaterial3: true,
       ),
       navigatorKey: navigatorKey,
-      initialRoute: LandingPages.route,
+      initialRoute: LoginScreen.route,
       routes: {
         LandingPage1.route: (context) => const LandingPage1(),
         LandingPage2.route: (context) => const LandingPage2(),
         LandingPage3.route: (context) => const LandingPage3(),
         LandingPage4.route: (context) => const LandingPage4(),
+        //main landing page
         LandingPages.route: (context) => const LandingPages(),
+        //auth pages
+        LoginScreen.route: (context) => const LoginScreen(),
+        SignupScreen.route: (context) => const SignupScreen(),
       },
     );
   }
