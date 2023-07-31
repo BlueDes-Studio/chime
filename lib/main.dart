@@ -1,13 +1,6 @@
 import 'package:chime/config/colorscheme.dart';
-import 'package:chime/screens/auth/login.dart';
-import 'package:chime/screens/auth/signup.dart';
-import 'package:chime/screens/landingpages/index.dart';
+import 'package:chime/screens/auth/auth.dart';
 import 'package:flutter/material.dart';
-
-import 'screens/landingpages/page1.dart';
-import 'screens/landingpages/page2.dart';
-import 'screens/landingpages/page3.dart';
-import 'screens/landingpages/page4.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
@@ -27,17 +20,10 @@ class Chime extends StatelessWidget {
         useMaterial3: true,
       ),
       navigatorKey: navigatorKey,
-      initialRoute: LoginScreen.route,
+      initialRoute: AuthScreen.route,
       routes: {
-        LandingPage1.route: (context) => const LandingPage1(),
-        LandingPage2.route: (context) => const LandingPage2(),
-        LandingPage3.route: (context) => const LandingPage3(),
-        LandingPage4.route: (context) => const LandingPage4(),
-        //main landing page
-        LandingPages.route: (context) => const LandingPages(),
         //auth pages
-        LoginScreen.route: (context) => const LoginScreen(),
-        SignupScreen.route: (context) => const SignupScreen(),
+        AuthScreen.route: (context) => const AuthScreen(),
       },
     );
   }
