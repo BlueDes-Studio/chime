@@ -404,6 +404,7 @@ class _AuthScreenState extends State<AuthScreen>
 
   String screenName = "";
   Widget formComponent = Container();
+  bool activeSwapBetweenScreen = false;
 
   double opacityLevelBg1 = 1.0;
   double opacityLevelBg2 = 0.0;
@@ -445,18 +446,27 @@ class _AuthScreenState extends State<AuthScreen>
   }
 
   void swapBetweenLoginAndSignup() {
+    setState(() {
+      activeSwapBetweenScreen = true;
+    });
     _animationController.reverse();
     Future.delayed(const Duration(milliseconds: 500), () {
       _animationController.forward();
       setState(() {
         switch (screenName) {
-          case "Sign Up":
+          case "Signup":
             screenName = "Login";
             break;
           case "Login":
             screenName = "Sign Up";
             break;
         }
+      });
+    });
+
+    Future.delayed(const Duration(milliseconds: 1000), () {
+      setState(() {
+        activeSwapBetweenScreen = false;
       });
     });
   }
@@ -681,6 +691,15 @@ class _AuthScreenState extends State<AuthScreen>
                   ),
                 ),
               ),
+              activeSwapBetweenScreen
+                  ? Positioned(
+                      child: Container(
+                        color: const Color(0xff863DFF),
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                      ),
+                    )
+                  : Container(),
               Positioned(
                 top: _offsetAnimationCenter.value,
                 left: -60,
@@ -728,7 +747,7 @@ class _AuthScreenState extends State<AuthScreen>
               ),
               Positioned(
                 top: _offsetAnimationLower.value,
-                left: -130,
+                left: -(MediaQuery.of(context).size.width / 2),
                 child: SimpleShadow(
                   color: const Color(0xff873EFF),
                   opacity: 0.8, // Default: 0.5
@@ -737,6 +756,7 @@ class _AuthScreenState extends State<AuthScreen>
                   child: RepaintBoundary(
                     child: SvgPicture.asset(
                       "assets/auth-lower.svg",
+                      height: MediaQuery.of(context).size.height,
                     ),
                   ), // Default: 2
                 ),
