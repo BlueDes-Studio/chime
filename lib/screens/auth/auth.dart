@@ -66,7 +66,11 @@ String generateButtonTitleForSignup(SignupInputPage signupInputPage) {
 }
 
 class LoginFormComponent extends StatelessWidget {
-  const LoginFormComponent({super.key});
+  final void Function() swapScreen;
+  const LoginFormComponent({
+    super.key,
+    required this.swapScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +116,7 @@ class LoginFormComponent extends StatelessWidget {
           ),
           onPressed: () {},
           child: const Text(
-            "Having trouble login in?",
+            "Having trouble with login?",
             style: TextStyle(
               color: chimePurple,
             ),
@@ -164,23 +168,26 @@ class LoginFormComponent extends StatelessWidget {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.only(top: 20),
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Don’t have and account yet?",
                 style: TextStyle(
                   fontFamily: "Inter",
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 5),
-                child: Text(
-                  "Signup now",
-                  style: TextStyle(
-                    color: chimePurple,
+              GestureDetector(
+                onTap: swapScreen,
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 5),
+                  child: Text(
+                    "Signup now",
+                    style: TextStyle(
+                      color: chimePurple,
+                    ),
                   ),
                 ),
               ),
@@ -192,14 +199,19 @@ class LoginFormComponent extends StatelessWidget {
   }
 }
 
-class SignupFormComponent extends StatelessWidget {
-  final SignupInputPage signupPageType;
-  final Function onPress;
+class SignupFormComponent extends StatefulWidget {
+  final void Function() swapScreen;
   const SignupFormComponent({
     super.key,
-    required this.signupPageType,
-    required this.onPress,
+    required this.swapScreen,
   });
+
+  @override
+  State<SignupFormComponent> createState() => _SignupFormComponentState();
+}
+
+class _SignupFormComponentState extends State<SignupFormComponent> {
+  SignupInputPage signupPageType = SignupInputPage.enterEmailPage;
 
   @override
   Widget build(BuildContext context) {
@@ -214,7 +226,21 @@ class SignupFormComponent extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(10)),
             )),
           ),
-          onPressed: () => onPress,
+          onPressed: () {
+            setState(() {
+              switch (signupPageType) {
+                case SignupInputPage.enterEmailPage:
+                  signupPageType = SignupInputPage.enterOTPPage;
+                  break;
+                case SignupInputPage.enterOTPPage:
+                  signupPageType = SignupInputPage.enterStudentDetailsPage;
+                  break;
+                case SignupInputPage.enterStudentDetailsPage:
+                  signupPageType = SignupInputPage.enterEmailPage;
+                  break;
+              }
+            });
+          },
           child: Text(
             generateButtonTitleForSignup(signupPageType),
             style: const TextStyle(
@@ -268,23 +294,26 @@ class SignupFormComponent extends StatelessWidget {
             ),
           ),
         ),
-        const Padding(
-          padding: EdgeInsets.only(top: 20),
+        Padding(
+          padding: const EdgeInsets.only(top: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Already have an account!",
                 style: TextStyle(
                   fontFamily: "Inter",
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(left: 5),
-                child: Text(
-                  "Login",
-                  style: TextStyle(
-                    color: chimePurple,
+              GestureDetector(
+                onTap: widget.swapScreen,
+                child: const Padding(
+                  padding: EdgeInsets.only(left: 5),
+                  child: Text(
+                    "Login",
+                    style: TextStyle(
+                      color: chimePurple,
+                    ),
                   ),
                 ),
               ),
@@ -308,10 +337,8 @@ class AuthScreen extends StatefulWidget {
 
 class _AuthScreenState extends State<AuthScreen>
     with SingleTickerProviderStateMixin {
-  SignupInputPage signupPageType = SignupInputPage.enterEmailPage;
-
   late final AnimationController _animationController = AnimationController(
-    duration: const Duration(milliseconds: 500),
+    duration: const Duration(milliseconds: 400),
     vsync: this,
   );
 
@@ -412,6 +439,23 @@ class _AuthScreenState extends State<AuthScreen>
           double ratio = (offset - screenWidth * 2) / screenWidth;
           opacityLevelBg3 = 1 - ratio;
           opacityLevelBg4 = ratio;
+        }
+      });
+    });
+  }
+
+  void swapBetweenLoginAndSignup() {
+    _animationController.reverse();
+    Future.delayed(const Duration(milliseconds: 500), () {
+      _animationController.forward();
+      setState(() {
+        switch (screenName) {
+          case "Sign Up":
+            screenName = "Login";
+            break;
+          case "Login":
+            screenName = "Sign Up";
+            break;
         }
       });
     });
@@ -745,26 +789,11 @@ class _AuthScreenState extends State<AuthScreen>
                   width: screenWidth,
                   height: 400,
                   child: screenName == "Login"
-                      ? const LoginFormComponent()
+                      ? LoginFormComponent(
+                          swapScreen: swapBetweenLoginAndSignup,
+                        )
                       : SignupFormComponent(
-                          signupPageType: signupPageType,
-                          onPress: () {
-                            setState(() {
-                              switch (signupPageType) {
-                                case SignupInputPage.enterEmailPage:
-                                  signupPageType = SignupInputPage.enterOTPPage;
-                                  break;
-                                case SignupInputPage.enterOTPPage:
-                                  signupPageType =
-                                      SignupInputPage.enterStudentDetailsPage;
-                                  break;
-                                case SignupInputPage.enterStudentDetailsPage:
-                                  signupPageType =
-                                      SignupInputPage.enterEmailPage;
-                                  break;
-                              }
-                            });
-                          },
+                          swapScreen: swapBetweenLoginAndSignup,
                         ),
                 ),
               ),
