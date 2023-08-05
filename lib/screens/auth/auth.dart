@@ -458,7 +458,7 @@ class _AuthScreenState extends State<AuthScreen>
             screenName = "Login";
             break;
           case "Login":
-            screenName = "Sign Up";
+            screenName = "Signup";
             break;
         }
       });
