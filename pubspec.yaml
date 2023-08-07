@@ -78,6 +78,8 @@ flutter:
     - assets/auth-or-line.svg
     - assets/google-logo.svg
     - assets/google-logo.png
+    - assets/calendar.svg
+    - assets/home.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

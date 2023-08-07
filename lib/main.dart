@@ -1,5 +1,6 @@
 import 'package:chime/config/colorscheme.dart';
 import 'package:chime/screens/auth/auth.dart';
+import 'package:chime/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
@@ -20,10 +21,13 @@ class Chime extends StatelessWidget {
         useMaterial3: true,
       ),
       navigatorKey: navigatorKey,
-      initialRoute: AuthScreen.route,
+      initialRoute: Dashboard.route,
       routes: {
         //auth pages
         AuthScreen.route: (context) => const AuthScreen(),
+
+        //app screens
+        Dashboard.route: (context) => const Dashboard(),
       },
     );
   }
