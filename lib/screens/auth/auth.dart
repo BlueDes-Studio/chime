@@ -389,14 +389,15 @@ class _AuthScreenState extends State<AuthScreen>
                                                 style: ButtonStyle(
                                                   fixedSize:
                                                       MaterialStateProperty.all(
-                                                          const Size(150, 30)),
+                                                    const Size(150, 30),
+                                                  ),
                                                   shape:
                                                       MaterialStateProperty.all(
                                                     const RoundedRectangleBorder(
                                                       borderRadius:
                                                           BorderRadius.all(
-                                                              Radius.circular(
-                                                                  10)),
+                                                        Radius.circular(10),
+                                                      ),
                                                       side: BorderSide(
                                                         color: chimePurple,
                                                         width: 2,
