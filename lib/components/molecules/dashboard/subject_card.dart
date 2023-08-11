@@ -44,18 +44,29 @@ class FutureAttendancePercentageSpecs extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 50,
-                child: Transform.rotate(
-                  angle: pi * -0.5,
-                  child: LinearPercentIndicator(
-                    percent: percentage / 100,
-                    backgroundColor: Colors.transparent,
-                    progressColor: getProgressBarColor(percentage),
-                    barRadius: const Radius.circular(10),
-                    width: 50,
-                    lineHeight: 10,
-                    animation: true,
-                  ),
+                height: 55,
+                width: 50,
+                // color: Colors.red,
+                child: Stack(
+                  children: [
+                    Positioned(
+                      top: 20,
+                      right: -9,
+                      child: Transform.rotate(
+                        angle: pi * -0.5,
+                        // angle: 0,
+                        child: LinearPercentIndicator(
+                          percent: percentage / 100,
+                          backgroundColor: Colors.transparent,
+                          progressColor: getProgressBarColor(percentage),
+                          barRadius: const Radius.circular(10),
+                          width: 70,
+                          lineHeight: 10,
+                          animation: true,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Text(

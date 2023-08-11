@@ -75,10 +75,10 @@ class _DashboardState extends State<Dashboard>
       body: Stack(
         children: [
           Positioned(
-            top: 100,
+            top: 0,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 100 - 70,
+              height: MediaQuery.of(context).size.height - 70,
               color: const Color(0xffEFF1FF),
               //render all subjects in here
               // child: Center(
@@ -93,6 +93,18 @@ class _DashboardState extends State<Dashboard>
               // ),
               child: ListView(
                 children: [
+                  Container(
+                    height: 20,
+                  ),
+                  const Text(
+                    "Dashboard",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   const SubjectCard(
                     subjectName: "Signals and System",
                     attendedDays: 5,
@@ -105,28 +117,13 @@ class _DashboardState extends State<Dashboard>
                   ),
                   const SubjectCard(
                     subjectName: "Discrete Mathematics",
-                    attendedDays: 13,
+                    attendedDays: 17,
                     totalDays: 17,
                   ),
                   Container(
                     height: 40,
                   )
                 ],
-              ),
-            ),
-          ),
-          Positioned(
-            top: 70,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              alignment: Alignment.center,
-              child: const Text(
-                "Dashboard",
-                style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                ),
               ),
             ),
           ),
