@@ -1,5 +1,7 @@
 import 'dart:math';
 
+import 'package:chime/components/atoms/circular_progress_indicator.dart';
+import 'package:chime/components/atoms/linear_percent_indicator.dart';
 import 'package:chime/config/colorscheme.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
@@ -249,14 +251,301 @@ class _DashboardState extends State<Dashboard>
               height: MediaQuery.of(context).size.height - 100 - 70,
               color: const Color(0xffEFF1FF),
               //render all subjects in here
-              child: const Center(
-                child: Text(
-                  "Tap the + button  to add a subject to the dashboard",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: "Roboto",
-                    fontSize: 20,
-                    color: Color(0xff8E8E8E),
+              // child: Center(
+              // child: Text(
+              //   "Tap the + button  to add a subject to the dashboard",
+              //   textAlign: TextAlign.center,
+              //   style: TextStyle(
+              //     fontFamily: "Roboto",
+              //     fontSize: 20,
+              //     color: Color(0xff8E8E8E),
+              //   ),
+              // ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 15),
+                child: SimpleShadow(
+                  opacity: 0.2, // Default: 0.5
+                  offset: const Offset(0, 3), // Default: Offset(2, 2)
+                  sigma: 3,
+                  child: SizedBox(
+                    width: MediaQuery.of(context).size.width,
+                    height: 260,
+                    child: Center(
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(20),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: CircularPercentIndicator(
+                                      percent: 0.85,
+                                      radius: 50,
+                                      lineWidth: 12,
+                                      backgroundColor: Colors.transparent,
+                                      progressColor: const Color(0xff91EC59),
+                                      center: const Text(
+                                        "85%",
+                                        style: TextStyle(
+                                          fontFamily: "Poppins",
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 115,
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: Column(
+                                                      children: [
+                                                        const Text(
+                                                          "70%",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 60,
+                                                          child:
+                                                              Transform.rotate(
+                                                            angle: pi * -0.5,
+                                                            child:
+                                                                LinearPercentIndicator(
+                                                              percent: 0.7,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              progressColor:
+                                                                  const Color(
+                                                                      0xff91EC59),
+                                                              barRadius:
+                                                                  const Radius
+                                                                      .circular(10),
+                                                              lineHeight: 10,
+                                                              animation: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const Text(
+                                                          "1",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: Column(
+                                                      children: [
+                                                        const Text(
+                                                          "65%",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 60,
+                                                          child:
+                                                              Transform.rotate(
+                                                            angle: pi * -0.5,
+                                                            child:
+                                                                LinearPercentIndicator(
+                                                              percent: 0.6,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              progressColor:
+                                                                  const Color(
+                                                                      0xffEFDE47),
+                                                              barRadius:
+                                                                  const Radius
+                                                                      .circular(10),
+                                                              lineHeight: 10,
+                                                              animation: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const Text(
+                                                          "2",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: Column(
+                                                      children: [
+                                                        const Text(
+                                                          "55%",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 60,
+                                                          child:
+                                                              Transform.rotate(
+                                                            angle: pi * -0.5,
+                                                            child:
+                                                                LinearPercentIndicator(
+                                                              percent: 0.55,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              progressColor:
+                                                                  const Color(
+                                                                      0xffEC5959),
+                                                              barRadius:
+                                                                  const Radius
+                                                                      .circular(10),
+                                                              lineHeight: 10,
+                                                              animation: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const Text(
+                                                          "3",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                child: Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            top: 10),
+                                                    child: Column(
+                                                      children: [
+                                                        const Text(
+                                                          "43%",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 60,
+                                                          child:
+                                                              Transform.rotate(
+                                                            angle: pi * -0.5,
+                                                            child:
+                                                                LinearPercentIndicator(
+                                                              percent: 0.43,
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              progressColor:
+                                                                  const Color(
+                                                                      0xffEC5959),
+                                                              barRadius:
+                                                                  const Radius
+                                                                      .circular(10),
+                                                              lineHeight: 10,
+                                                              animation: true,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        const Text(
+                                                          "4",
+                                                          style: TextStyle(
+                                                            fontFamily:
+                                                                "Poppins",
+                                                            fontSize: 14,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        const Text(
+                                          "attendance after number of absents",
+                                          style: TextStyle(
+                                            fontFamily: "Poppins",
+                                            fontSize: 12,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(left: 30),
+                              child: Text(
+                                "Signals and Systems",
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ),
