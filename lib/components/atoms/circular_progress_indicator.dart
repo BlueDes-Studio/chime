@@ -115,7 +115,7 @@ class CircularPercentIndicator extends StatefulWidget {
     this.backgroundWidth = -1,
     this.linearGradient,
     this.animation = true,
-    this.animationDuration = 300,
+    this.animationDuration = 700,
     this.header,
     this.footer,
     this.center,
