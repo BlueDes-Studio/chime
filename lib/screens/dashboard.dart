@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:chime/components/atoms/circular_progress_indicator.dart';
-import 'package:chime/components/atoms/linear_percent_indicator.dart';
 import 'package:chime/components/molecules/dashboard/subject_card.dart';
 import 'package:chime/components/molecules/dashboard/subject_entry.dart';
 import 'package:chime/components/molecules/dashboard/subject_input_component.dart';

@@ -19,6 +19,48 @@ double recommendNumberOfClassesToAttend(int attended, int total, int target) {
   return ((target * total) - (100 * attended)) / (100 - target);
 }
 
+class SetAttendanceStatus extends StatelessWidget {
+  const SetAttendanceStatus({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const SizedBox(
+      height: 20,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(left: 20),
+            child: Text(
+              "Fri | 19th :",
+              style: TextStyle(
+                fontFamily: "Poppins",
+                fontSize: 12,
+              ),
+            ),
+          ),
+          Icon(
+            Icons.check_circle_outline,
+            color: Color(0xffD9D9D9),
+          ),
+          Icon(
+            Icons.highlight_off,
+            color: Color(0xffD9D9D9),
+          ),
+          Icon(
+            Icons.remove_circle_outline,
+            color: Color(0xffD9D9D9),
+          ),
+          Icon(
+            Icons.error_outline,
+            color: Color(0xffD9D9D9),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class FutureAttendancePercentageSpecs extends StatelessWidget {
   final double percentage;
   final int index;
@@ -214,8 +256,13 @@ class SubjectCard extends StatelessWidget {
                             )
                           : Container(),
                       Container(
-                        height: 20,
-                      )
+                        height: 10,
+                      ),
+                      const Divider(),
+                      const SetAttendanceStatus(),
+                      Container(
+                        height: 15,
+                      ),
                     ],
                   ),
                 ),
