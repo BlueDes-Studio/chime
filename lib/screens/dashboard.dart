@@ -272,7 +272,7 @@ class _DashboardState extends State<Dashboard>
             top: MediaQuery.of(context).size.height - 70,
             child: IconButton(
               icon:
-                  const ImageIcon(AssetImage("assets/calendar.png"), size: 35),
+                  const ImageIcon(AssetImage("assets/calendar.png"), size: 25),
               onPressed: () {},
               color: Colors.black,
               style: const ButtonStyle(
@@ -284,7 +284,7 @@ class _DashboardState extends State<Dashboard>
             right: 40,
             top: MediaQuery.of(context).size.height - 70,
             child: IconButton(
-              icon: const ImageIcon(AssetImage("assets/home.png"), size: 35),
+              icon: const ImageIcon(AssetImage("assets/home.png"), size: 25),
               onPressed: () {},
               color: Colors.black,
               style: const ButtonStyle(

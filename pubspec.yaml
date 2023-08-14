@@ -80,6 +80,13 @@ flutter:
     - assets/google-logo.png
     - assets/home.png
     - assets/calendar.png
+    - assets/attendance-present-check.png
+    - assets/attendance-present-check-outlined.png
+    - assets/attendance-absent.png
+    - assets/attendance-absent-outlined.png
+    - assets/attendance-cancelled.png
+    - assets/attendance-cancelled-outlined.png
+    - assets/attendance-postponed.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

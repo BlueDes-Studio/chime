@@ -19,41 +19,124 @@ double recommendNumberOfClassesToAttend(int attended, int total, int target) {
   return ((target * total) - (100 * attended)) / (100 - target);
 }
 
-class SetAttendanceStatus extends StatelessWidget {
+class SetAttendanceStatus extends StatefulWidget {
   const SetAttendanceStatus({super.key});
 
   @override
+  State<SetAttendanceStatus> createState() => _SetAttendanceStatusState();
+}
+
+class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
+  String parsedDate = "";
+  Map<String, bool> attendanceStatus = {
+    "present": false,
+    "absent": false,
+    "cancelled": false,
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    DateTime dateTime = DateTime.now();
+
+    switch (dateTime.weekday) {
+      case DateTime.sunday:
+        parsedDate += "Sun | ";
+      case DateTime.monday:
+        parsedDate += "Mon | ";
+      case DateTime.tuesday:
+        parsedDate += "Tue | ";
+      case DateTime.wednesday:
+        parsedDate += "Wed | ";
+      case DateTime.thursday:
+        parsedDate += "Thu | ";
+      case DateTime.friday:
+        parsedDate += "Fri | ";
+      case DateTime.saturday:
+        parsedDate += "Sat | ";
+    }
+
+    parsedDate += "${dateTime.day}th :";
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return const SizedBox(
+    return SizedBox(
       height: 20,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.only(left: 30),
             child: Text(
-              "Fri | 19th :",
-              style: TextStyle(
+              parsedDate,
+              style: const TextStyle(
                 fontFamily: "Poppins",
                 fontSize: 12,
               ),
             ),
           ),
-          Icon(
-            Icons.check_circle_outline,
-            color: Color(0xffD9D9D9),
-          ),
-          Icon(
-            Icons.highlight_off,
-            color: Color(0xffD9D9D9),
-          ),
-          Icon(
-            Icons.remove_circle_outline,
-            color: Color(0xffD9D9D9),
-          ),
-          Icon(
-            Icons.error_outline,
-            color: Color(0xffD9D9D9),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                attendanceStatus["present"]!
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            attendanceStatus.update(
+                                "present", (value) => false);
+                          });
+                        },
+                        child:
+                            Image.asset("assets/attendance-present-check.png"))
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            attendanceStatus
+                                .updateAll((key, value) => key == "present");
+                          });
+                        },
+                        child: Image.asset(
+                            "assets/attendance-present-check-outlined.png")),
+                attendanceStatus["absent"]!
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            attendanceStatus.update("absent", (value) => false);
+                          });
+                        },
+                        child: Image.asset("assets/attendance-absent.png"))
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            attendanceStatus
+                                .updateAll((key, value) => key == "absent");
+                          });
+                        },
+                        child: Image.asset(
+                            "assets/attendance-absent-outlined.png"),
+                      ),
+                attendanceStatus["cancelled"]!
+                    ? GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            attendanceStatus.update(
+                                "cancelled", (value) => false);
+                          });
+                        },
+                        child: Image.asset("assets/attendance-cancelled.png"))
+                    : GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            attendanceStatus
+                                .updateAll((key, value) => key == "cancelled");
+                          });
+                        },
+                        child: Image.asset(
+                            "assets/attendance-cancelled-outlined.png")),
+                Image.asset("assets/attendance-postponed.png"),
+              ],
+            ),
           ),
         ],
       ),
