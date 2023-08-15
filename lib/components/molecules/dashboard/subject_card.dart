@@ -20,7 +20,11 @@ double recommendNumberOfClassesToAttend(int attended, int total, int target) {
 }
 
 class SetAttendanceStatus extends StatefulWidget {
-  const SetAttendanceStatus({super.key});
+  final void Function(AttendanceStatus status) setAttendanceStatusAction;
+  const SetAttendanceStatus({
+    super.key,
+    required this.setAttendanceStatusAction,
+  });
 
   @override
   State<SetAttendanceStatus> createState() => _SetAttendanceStatusState();
@@ -86,6 +90,8 @@ class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
                             attendanceStatus.update(
                                 "present", (value) => false);
                           });
+                          widget.setAttendanceStatusAction(
+                              AttendanceStatus.unselectPresent);
                         },
                         child:
                             Image.asset("assets/attendance-present-check.png"))
@@ -95,6 +101,8 @@ class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
                             attendanceStatus
                                 .updateAll((key, value) => key == "present");
                           });
+                          widget.setAttendanceStatusAction(
+                              AttendanceStatus.selectPresent);
                         },
                         child: Image.asset(
                             "assets/attendance-present-check-outlined.png")),
@@ -104,6 +112,8 @@ class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
                           setState(() {
                             attendanceStatus.update("absent", (value) => false);
                           });
+                          widget.setAttendanceStatusAction(
+                              AttendanceStatus.unselectAbsent);
                         },
                         child: Image.asset("assets/attendance-absent.png"))
                     : GestureDetector(
@@ -112,6 +122,8 @@ class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
                             attendanceStatus
                                 .updateAll((key, value) => key == "absent");
                           });
+                          widget.setAttendanceStatusAction(
+                              AttendanceStatus.selectAbsent);
                         },
                         child: Image.asset(
                             "assets/attendance-absent-outlined.png"),
@@ -209,7 +221,14 @@ class FutureAttendancePercentageSpecs extends StatelessWidget {
   }
 }
 
-class SubjectCard extends StatelessWidget {
+enum AttendanceStatus {
+  selectPresent,
+  unselectPresent,
+  selectAbsent,
+  unselectAbsent,
+}
+
+class SubjectCard extends StatefulWidget {
   final String subjectName;
   final int totalDays;
   final int attendedDays;
@@ -221,9 +240,51 @@ class SubjectCard extends StatelessWidget {
   });
 
   @override
+  State<SubjectCard> createState() => _SubjectCardState();
+}
+
+class _SubjectCardState extends State<SubjectCard> {
+  late int totalDaysCopy;
+  late int attendedDaysCopy;
+  @override
+  void initState() {
+    super.initState();
+    totalDaysCopy = widget.totalDays;
+    attendedDaysCopy = widget.attendedDays;
+  }
+
+  void setAttendanceStatusAction(AttendanceStatus status) {
+    switch (status) {
+      case AttendanceStatus.selectPresent:
+        setState(() {
+          totalDaysCopy = widget.totalDays + 1;
+          attendedDaysCopy = widget.attendedDays + 1;
+        });
+        break;
+
+      case AttendanceStatus.selectAbsent:
+        setState(() {
+          totalDaysCopy = widget.totalDays - 1;
+          attendedDaysCopy = widget.attendedDays - 1;
+        });
+        break;
+
+      case AttendanceStatus.unselectPresent:
+      case AttendanceStatus.unselectAbsent:
+        setState(() {
+          totalDaysCopy = widget.totalDays;
+          attendedDaysCopy = widget.attendedDays;
+        });
+        break;
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     int recommendedClassesToAttend =
-        recommendNumberOfClassesToAttend(attendedDays, totalDays, 75).round();
+        recommendNumberOfClassesToAttend(attendedDaysCopy, totalDaysCopy, 75)
+            .round();
+
     return Padding(
       padding: const EdgeInsets.only(top: 15),
       child: SimpleShadow(
@@ -256,14 +317,14 @@ class SubjectCard extends StatelessWidget {
                               width: 100,
                               height: 100,
                               child: CircularPercentIndicator(
-                                percent: attendedDays / totalDays,
+                                percent: attendedDaysCopy / totalDaysCopy,
                                 radius: 50,
                                 lineWidth: 12,
                                 backgroundColor: Colors.transparent,
                                 progressColor: getProgressBarColor(
-                                    (attendedDays / totalDays) * 100),
+                                    (attendedDaysCopy / totalDaysCopy) * 100),
                                 center: Text(
-                                  "${((attendedDays / totalDays) * 100).toInt()}%",
+                                  "${((attendedDaysCopy / totalDaysCopy) * 100).toInt()}%",
                                   style: const TextStyle(
                                     fontFamily: "Poppins",
                                     fontSize: 20,
@@ -277,27 +338,27 @@ class SubjectCard extends StatelessWidget {
                                   Row(
                                     children: [
                                       FutureAttendancePercentageSpecs(
-                                        percentage:
-                                            ((attendedDays) / (totalDays + 1)) *
-                                                100,
+                                        percentage: ((attendedDaysCopy) /
+                                                (totalDaysCopy + 1)) *
+                                            100,
                                         index: 1,
                                       ),
                                       FutureAttendancePercentageSpecs(
-                                        percentage:
-                                            ((attendedDays) / (totalDays + 2)) *
-                                                100,
+                                        percentage: ((attendedDaysCopy) /
+                                                (totalDaysCopy + 2)) *
+                                            100,
                                         index: 2,
                                       ),
                                       FutureAttendancePercentageSpecs(
-                                        percentage:
-                                            ((attendedDays) / (totalDays + 3)) *
-                                                100,
+                                        percentage: ((attendedDaysCopy) /
+                                                (totalDaysCopy + 3)) *
+                                            100,
                                         index: 3,
                                       ),
                                       FutureAttendancePercentageSpecs(
-                                        percentage:
-                                            ((attendedDays) / (totalDays + 4)) *
-                                                100,
+                                        percentage: ((attendedDaysCopy) /
+                                                (totalDaysCopy + 4)) *
+                                            100,
                                         index: 4,
                                       ),
                                     ],
@@ -318,7 +379,7 @@ class SubjectCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: Text(
-                          subjectName,
+                          widget.subjectName,
                           style: const TextStyle(
                             fontFamily: "Poppins",
                             fontSize: 19,
@@ -342,7 +403,9 @@ class SubjectCard extends StatelessWidget {
                         height: 10,
                       ),
                       const Divider(),
-                      const SetAttendanceStatus(),
+                      SetAttendanceStatus(
+                        setAttendanceStatusAction: setAttendanceStatusAction,
+                      ),
                       Container(
                         height: 15,
                       ),
