@@ -232,11 +232,13 @@ class SubjectCard extends StatefulWidget {
   final String subjectName;
   final int totalDays;
   final int attendedDays;
+  final bool takeClassAttendance;
   const SubjectCard({
     super.key,
     required this.subjectName,
     required this.totalDays,
     required this.attendedDays,
+    required this.takeClassAttendance,
   });
 
   @override
@@ -264,7 +266,7 @@ class _SubjectCardState extends State<SubjectCard> {
 
       case AttendanceStatus.selectAbsent:
         setState(() {
-          totalDaysCopy = widget.totalDays - 1;
+          totalDaysCopy = widget.totalDays + 1;
           attendedDaysCopy = widget.attendedDays - 1;
         });
         break;
@@ -402,10 +404,17 @@ class _SubjectCardState extends State<SubjectCard> {
                       Container(
                         height: 10,
                       ),
-                      const Divider(),
-                      SetAttendanceStatus(
-                        setAttendanceStatusAction: setAttendanceStatusAction,
-                      ),
+                      widget.takeClassAttendance
+                          ? Column(
+                              children: [
+                                const Divider(),
+                                SetAttendanceStatus(
+                                  setAttendanceStatusAction:
+                                      setAttendanceStatusAction,
+                                ),
+                              ],
+                            )
+                          : Container(),
                       Container(
                         height: 15,
                       ),
