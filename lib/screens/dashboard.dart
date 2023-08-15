@@ -107,18 +107,21 @@ class _DashboardState extends State<Dashboard>
                     subjectName: "Signals and System",
                     attendedDays: 5,
                     totalDays: 17,
+                    cancelDays: 0,
                     takeClassAttendance: true,
                   ),
                   const SubjectCard(
                     subjectName: "Digital Logic and Design",
                     attendedDays: 10,
                     totalDays: 17,
+                    cancelDays: 0,
                     takeClassAttendance: false,
                   ),
                   const SubjectCard(
                     subjectName: "Discrete Mathematics",
                     attendedDays: 17,
                     totalDays: 17,
+                    cancelDays: 0,
                     takeClassAttendance: false,
                   ),
                   Container(

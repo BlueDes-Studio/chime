@@ -135,6 +135,8 @@ class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
                             attendanceStatus.update(
                                 "cancelled", (value) => false);
                           });
+                          widget.setAttendanceStatusAction(
+                              AttendanceStatus.unselectCancel);
                         },
                         child: Image.asset("assets/attendance-cancelled.png"))
                     : GestureDetector(
@@ -143,6 +145,8 @@ class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
                             attendanceStatus
                                 .updateAll((key, value) => key == "cancelled");
                           });
+                          widget.setAttendanceStatusAction(
+                              AttendanceStatus.selectCancel);
                         },
                         child: Image.asset(
                             "assets/attendance-cancelled-outlined.png")),
@@ -226,18 +230,23 @@ enum AttendanceStatus {
   unselectPresent,
   selectAbsent,
   unselectAbsent,
+  selectCancel,
+  unselectCancel,
 }
 
 class SubjectCard extends StatefulWidget {
   final String subjectName;
   final int totalDays;
   final int attendedDays;
+  final int cancelDays;
   final bool takeClassAttendance;
+
   const SubjectCard({
     super.key,
     required this.subjectName,
     required this.totalDays,
     required this.attendedDays,
+    required this.cancelDays,
     required this.takeClassAttendance,
   });
 
@@ -248,11 +257,13 @@ class SubjectCard extends StatefulWidget {
 class _SubjectCardState extends State<SubjectCard> {
   late int totalDaysCopy;
   late int attendedDaysCopy;
+  late int cancelDaysCopy;
   @override
   void initState() {
     super.initState();
     totalDaysCopy = widget.totalDays;
     attendedDaysCopy = widget.attendedDays;
+    cancelDaysCopy = widget.cancelDays;
   }
 
   void setAttendanceStatusAction(AttendanceStatus status) {
@@ -261,13 +272,15 @@ class _SubjectCardState extends State<SubjectCard> {
         setState(() {
           totalDaysCopy = widget.totalDays + 1;
           attendedDaysCopy = widget.attendedDays + 1;
+          cancelDaysCopy = widget.cancelDays;
         });
         break;
 
       case AttendanceStatus.selectAbsent:
         setState(() {
           totalDaysCopy = widget.totalDays + 1;
-          attendedDaysCopy = widget.attendedDays - 1;
+          attendedDaysCopy = widget.attendedDays;
+          cancelDaysCopy = widget.cancelDays;
         });
         break;
 
@@ -276,8 +289,24 @@ class _SubjectCardState extends State<SubjectCard> {
         setState(() {
           totalDaysCopy = widget.totalDays;
           attendedDaysCopy = widget.attendedDays;
+          cancelDaysCopy = widget.cancelDays;
         });
         break;
+
+      case AttendanceStatus.selectCancel:
+        setState(() {
+          totalDaysCopy = widget.totalDays;
+          attendedDaysCopy = widget.attendedDays;
+          cancelDaysCopy++;
+        });
+        break;
+
+      case AttendanceStatus.unselectCancel:
+        setState(() {
+          totalDaysCopy = widget.totalDays;
+          attendedDaysCopy = widget.attendedDays;
+          cancelDaysCopy--;
+        });
     }
   }
 
@@ -417,6 +446,72 @@ class _SubjectCardState extends State<SubjectCard> {
                           : Container(),
                       Container(
                         height: 15,
+                      ),
+                      Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Image.asset(
+                              "assets/stats-pie.png",
+                              width: 22,
+                              height: 22,
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 5),
+                            child: Text(
+                              "Stats",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: Text(
+                              "Total classes : $totalDaysCopy",
+                              style: const TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Present : $attendedDaysCopy",
+                              style: const TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "Absent : ${totalDaysCopy - attendedDaysCopy}",
+                              style: const TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            Text(
+                              "Cancel : $cancelDaysCopy",
+                              style: const TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 15,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
