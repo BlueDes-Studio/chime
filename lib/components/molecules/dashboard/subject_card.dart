@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:chime/components/atoms/circular_progress_indicator.dart';
 import 'package:chime/components/atoms/linear_percent_indicator.dart';
+import 'package:chime/config/colorscheme.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -21,9 +22,11 @@ double recommendNumberOfClassesToAttend(int attended, int total, int target) {
 
 class SetAttendanceStatus extends StatefulWidget {
   final void Function(AttendanceStatus status) setAttendanceStatusAction;
+  final DateTime? datetime;
   const SetAttendanceStatus({
     super.key,
     required this.setAttendanceStatusAction,
+    this.datetime,
   });
 
   @override
@@ -41,7 +44,7 @@ class _SetAttendanceStatusState extends State<SetAttendanceStatus> {
   @override
   void initState() {
     super.initState();
-    DateTime dateTime = DateTime.now();
+    DateTime dateTime = widget.datetime ?? DateTime.now();
 
     switch (dateTime.weekday) {
       case DateTime.sunday:
@@ -482,7 +485,8 @@ class _SubjectCardState extends State<SubjectCard> {
                         ],
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 30, right: 30),
+                        padding:
+                            const EdgeInsets.only(left: 30, right: 30, top: 5),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -511,6 +515,252 @@ class _SubjectCardState extends State<SubjectCard> {
                               ),
                             ),
                           ],
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(
+                      //     left: 30,
+                      //     right: 30,
+                      //     top: 10,
+                      //   ),
+                      //   child: Stack(
+                      //     children: [
+                      //       LinearPercentIndicator(
+                      //         percent: 100 / 100,
+                      //         backgroundColor: Colors.transparent,
+                      //         progressColor: const Color(0xffEFDE47),
+                      //         barRadius: const Radius.circular(10),
+                      //         width: 327,
+                      //         lineHeight: 10,
+                      //         animation: true,
+                      //       ),
+                      //       LinearPercentIndicator(
+                      //         percent: 100 / 100,
+                      //         backgroundColor: Colors.transparent,
+                      //         progressColor: const Color(0xffEC5959),
+                      //         barRadius: const Radius.circular(10),
+                      //         width: 327 *
+                      //             (totalDaysCopy /
+                      //                 (totalDaysCopy + cancelDaysCopy)),
+                      //         lineHeight: 10,
+                      //         animation: true,
+                      //       ),
+                      //       LinearPercentIndicator(
+                      //         percent: 100 / 100,
+                      //         backgroundColor: Colors.transparent,
+                      //         progressColor: const Color(0xff91EC59),
+                      //         barRadius: const Radius.circular(10),
+                      //         width: 327 *
+                      //             (attendedDaysCopy /
+                      //                 (totalDaysCopy + cancelDaysCopy)),
+                      //         lineHeight: 10,
+                      //         animation: true,
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Image.asset(
+                                "assets/prev-miss-icon.png",
+                                width: 22,
+                                height: 22,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10, left: 5),
+                              child: Text(
+                                "Previously missed entries",
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SetAttendanceStatus(
+                          datetime: DateTime(2023, DateTime.august, 15),
+                          setAttendanceStatusAction: (status) {},
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: SetAttendanceStatus(
+                          datetime: DateTime(2023, DateTime.august, 10),
+                          setAttendanceStatusAction: (status) {},
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: 30),
+                              child: Image.asset(
+                                "assets/schedule-class.png",
+                                width: 22,
+                                height: 22,
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 10, left: 5),
+                              child: Text(
+                                "Class schedule",
+                                style: TextStyle(
+                                  fontFamily: "Poppins",
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          left: 20,
+                          right: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Text(
+                              "class 1",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                              ),
+                            ),
+                            Container(
+                              width: 100,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1.1,
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const Icon(
+                                    Icons.calendar_month,
+                                    color: Colors.grey,
+                                    size: 16,
+                                  ),
+                                  const Text(
+                                    "Day",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: "Poppins",
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 5,
+                                  ),
+                                  const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.grey,
+                                    size: 16,
+                                  )
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: 100,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1.1,
+                                  color: Colors.grey,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  const Icon(
+                                    Icons.timer,
+                                    color: Colors.grey,
+                                    size: 16,
+                                  ),
+                                  const Text(
+                                    "Time",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontFamily: "Poppins",
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: 5,
+                                  ),
+                                  const Icon(
+                                    Icons.keyboard_arrow_down,
+                                    color: Colors.grey,
+                                    size: 16,
+                                  )
+                                ],
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: TextButton(
+                          onPressed: () {},
+                          child: const Text(
+                            "add more classes +",
+                            style: TextStyle(
+                              color: chimePurple,
+                              fontFamily: "Poppins",
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: 50,
+                        decoration: const BoxDecoration(
+                          color: chimePurple,
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: const Center(
+                          child: Icon(
+                            Icons.keyboard_arrow_up,
+                            color: Colors.white,
+                            size: 40,
+                          ),
                         ),
                       ),
                     ],

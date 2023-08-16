@@ -18,7 +18,7 @@ class SubjectEntryComponent extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(
-            "class$index:",
+            "class $index",
             style: const TextStyle(
               fontFamily: "Poppins",
               fontSize: 14,

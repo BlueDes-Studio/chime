@@ -88,6 +88,8 @@ flutter:
     - assets/attendance-cancelled-outlined.png
     - assets/attendance-postponed.png
     - assets/stats-pie.png
+    - assets/prev-miss-icon.png
+    - assets/schedule-class.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
