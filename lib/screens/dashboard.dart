@@ -132,6 +132,15 @@ class _DashboardState extends State<Dashboard>
             ),
           ),
 
+          if (_slideTransition.value > -300)
+            Positioned(
+              child: Container(
+                color: Colors.black.withOpacity(0.2),
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+              ),
+            ),
+
           //subject input component
           Positioned(
             bottom: MediaQuery.of(context).viewInsets.bottom > 0
@@ -302,4 +311,9 @@ class _DashboardState extends State<Dashboard>
       ),
     );
   }
+  // ),
+  // ),
+  // ),
+  // ),
+  // ),
 }
