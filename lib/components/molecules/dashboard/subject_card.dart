@@ -463,16 +463,35 @@ class _SubjectCardState extends State<SubjectCard>
                           ],
                         ),
                       ),
-                      if (widget.takeClassAttendance)
-                        Column(
-                          children: [
-                            const Divider(),
-                            SetAttendanceStatus(
-                              setAttendanceStatusAction:
-                                  setAttendanceStatusAction,
+                      widget.takeClassAttendance
+                          ? Column(
+                              children: [
+                                const Divider(),
+                                SetAttendanceStatus(
+                                  setAttendanceStatusAction:
+                                      setAttendanceStatusAction,
+                                ),
+                              ],
+                            )
+                          : Container(
+                              alignment: Alignment.centerRight,
+                              width: MediaQuery.of(context).size.width * 0.9,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 23),
+                                child: InkWell(
+                                  onTap: () {
+                                    setAttendanceStatusAction(
+                                        AttendanceStatus.expandCard);
+                                  },
+                                  child: SizedBox(
+                                    width: 22,
+                                    height: 22,
+                                    child: Image.asset(
+                                        "assets/attendance-postponed.png"),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ],
-                        ),
                       Container(
                         height: 15,
                       ),

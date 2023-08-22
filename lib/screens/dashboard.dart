@@ -90,6 +90,7 @@ class _DashboardState extends State<Dashboard>
               //   ),
               // ),
               child: ListView(
+                scrollDirection: Axis.vertical,
                 children: [
                   Container(
                     height: 20,
