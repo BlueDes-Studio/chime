@@ -435,15 +435,14 @@ class _AuthScreenState extends State<AuthScreen>
                   ),
                 ),
               ),
-              activeSwapBetweenScreen
-                  ? Positioned(
-                      child: Container(
-                        color: const Color(0xff863DFF),
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height,
-                      ),
-                    )
-                  : Container(),
+              if (activeSwapBetweenScreen)
+                Positioned(
+                  child: Container(
+                    color: const Color(0xff863DFF),
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                  ),
+                ),
               Positioned(
                 top: _offsetAnimationCenter.value,
                 left: -60,
