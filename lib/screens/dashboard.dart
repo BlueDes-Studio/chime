@@ -25,9 +25,14 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard>
-    with SingleTickerProviderStateMixin {
+class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
+    duration: const Duration(milliseconds: 300),
+    vsync: this,
+  );
+
+  late final AnimationController _postponedAnimationController =
+      AnimationController(
     duration: const Duration(milliseconds: 300),
     vsync: this,
   );
@@ -54,6 +59,16 @@ class _DashboardState extends State<Dashboard>
     ),
   );
 
+  late final Animation<double> _slidePostponedTransition = Tween<double>(
+    begin: -300,
+    end: 110,
+  ).animate(
+    CurvedAnimation(
+      parent: _postponedAnimationController,
+      curve: Curves.fastOutSlowIn,
+    ),
+  );
+
   List<SubjectEntryData> subjectsEntries = [
     SubjectEntryData(day: "", time: ""),
   ];
@@ -61,6 +76,9 @@ class _DashboardState extends State<Dashboard>
   @override
   void initState() {
     _animationController.addListener(() {
+      setState(() {});
+    });
+    _postponedAnimationController.addListener(() {
       setState(() {});
     });
     super.initState();
@@ -104,26 +122,29 @@ class _DashboardState extends State<Dashboard>
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SubjectCard(
+                  SubjectCard(
                     subjectName: "Signals and System",
                     attendedDays: 5,
                     totalDays: 17,
                     cancelDays: 0,
                     takeClassAttendance: true,
+                    postponedAnimationController: _postponedAnimationController,
                   ),
-                  const SubjectCard(
+                  SubjectCard(
                     subjectName: "Digital Logic and Design",
                     attendedDays: 10,
                     totalDays: 17,
                     cancelDays: 0,
                     takeClassAttendance: false,
+                    postponedAnimationController: _postponedAnimationController,
                   ),
-                  const SubjectCard(
+                  SubjectCard(
                     subjectName: "Discrete Mathematics",
                     attendedDays: 17,
                     totalDays: 17,
                     cancelDays: 0,
                     takeClassAttendance: false,
+                    postponedAnimationController: _postponedAnimationController,
                   ),
                   Container(
                     height: 40,
@@ -133,7 +154,8 @@ class _DashboardState extends State<Dashboard>
             ),
           ),
 
-          if (_slideTransition.value > -300)
+          if (_slidePostponedTransition.value > -300 ||
+              _slideTransition.value > -300)
             Positioned(
               child: Container(
                 color: Colors.black.withOpacity(0.2),
@@ -231,6 +253,170 @@ class _DashboardState extends State<Dashboard>
                           ),
                         ),
                       ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          //postponed component
+          Positioned(
+            bottom: _slidePostponedTransition.value,
+            child: TapRegion(
+              onTapOutside: (event) {
+                _postponedAnimationController.reverse();
+              },
+              child: SimpleShadow(
+                opacity: 0.2, // Default: 0.5
+                offset: const Offset(0, 3), // Default: Offset(2, 2)
+                sigma: 3,
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      height: 145,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(20),
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Padding(
+                            padding:
+                                EdgeInsets.only(top: 10, left: 20, bottom: 5),
+                            child: Text(
+                              "Postponed to:",
+                              style: TextStyle(
+                                color: Color(0xffB5B5B5),
+                                fontFamily: "Poppins",
+                                fontSize: 18,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  width: 100,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1.1,
+                                      color: Colors.grey,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      const Icon(
+                                        Icons.calendar_month,
+                                        color: Colors.grey,
+                                        size: 16,
+                                      ),
+                                      const Text(
+                                        "Day",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontFamily: "Poppins",
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 5,
+                                      ),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: Colors.grey,
+                                        size: 16,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  width: 100,
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1.1,
+                                      color: Colors.grey,
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                      Radius.circular(10),
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      const Icon(
+                                        Icons.timer,
+                                        color: Colors.grey,
+                                        size: 16,
+                                      ),
+                                      const Text(
+                                        "Time",
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontFamily: "Poppins",
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                      Container(
+                                        width: 5,
+                                      ),
+                                      const Icon(
+                                        Icons.keyboard_arrow_down,
+                                        color: Colors.grey,
+                                        size: 16,
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 5, left: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 10),
+                                  child: FilledButton(
+                                    onPressed: () {
+                                      _postponedAnimationController.reverse();
+                                    },
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              chimePurple),
+                                      shape: MaterialStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0),
+                                        ),
+                                      ),
+                                    ),
+                                    child: const Text("Done"),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

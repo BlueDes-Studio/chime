@@ -250,6 +250,7 @@ class SubjectCard extends StatefulWidget {
   final int attendedDays;
   final int cancelDays;
   final bool takeClassAttendance;
+  final AnimationController postponedAnimationController;
 
   const SubjectCard({
     super.key,
@@ -258,6 +259,7 @@ class SubjectCard extends StatefulWidget {
     required this.attendedDays,
     required this.cancelDays,
     required this.takeClassAttendance,
+    required this.postponedAnimationController,
   });
 
   @override
@@ -312,6 +314,7 @@ class _SubjectCardState extends State<SubjectCard>
           attendedDaysCopy = widget.attendedDays;
           cancelDaysCopy++;
         });
+        widget.postponedAnimationController.forward();
         break;
 
       case AttendanceStatus.unselectCancel:
