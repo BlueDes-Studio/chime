@@ -1,3 +1,4 @@
+import 'package:chime/config/colorscheme.dart';
 import 'package:flutter/material.dart';
 
 enum AttendanceStatus {
@@ -12,12 +13,12 @@ enum AttendanceStatus {
 
 Color getProgressBarColor(double percentage) {
   if (percentage <= 100 && percentage > 75) {
-    return const Color(0xff91EC59);
+    return lightGreen;
   }
   if (percentage <= 75 && percentage > 50) {
-    return const Color(0xffEFDE47);
+    return lightYellow;
   }
-  return const Color(0xffEC5959);
+  return lightRed;
 }
 
 double recommendNumberOfClassesToAttend(int attended, int total, int target) {

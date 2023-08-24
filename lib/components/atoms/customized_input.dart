@@ -31,7 +31,7 @@ class _CustomizedInputComponentState extends State<CustomizedInputComponent> {
               fontFamily: "Inter",
               fontWeight: FontWeight.w600,
               fontSize: 15,
-              color: Color(0xff474747),
+              color: darkGrey,
             ),
           ),
         ),

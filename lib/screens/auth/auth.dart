@@ -520,13 +520,13 @@ class _AuthScreenState extends State<AuthScreen>
                         icon: const Icon(
                           Icons.arrow_back,
                           size: 15,
-                          color: Color(0xff9C60FF),
+                          color: chimePurple,
                         ),
                         label: const Text(
                           "Back",
                           style: TextStyle(
                             fontSize: 16,
-                            color: Color(0xff9C60FF),
+                            color: chimePurple,
                           ),
                         ),
                       ),
@@ -538,7 +538,7 @@ class _AuthScreenState extends State<AuthScreen>
                             fontFamily: "Inter",
                             fontWeight: FontWeight.w600,
                             fontSize: 35,
-                            color: Color(0xff474747),
+                            color: darkGrey,
                           ),
                         ),
                       ),

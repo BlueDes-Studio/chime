@@ -91,7 +91,7 @@ class _SignupFormComponentState extends State<SignupFormComponent> {
                       style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Inter",
-                        color: Color(0xff474747),
+                        color: darkGrey,
                       ),
                     ),
                   ],

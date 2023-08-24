@@ -98,7 +98,7 @@ class LoginFormComponent extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Inter",
-                        color: Color(0xff474747),
+                        color: darkGrey,
                       ),
                     ),
                   ],

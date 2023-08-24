@@ -292,7 +292,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                             child: Text(
                               "Postponed to:",
                               style: TextStyle(
-                                color: Color(0xffB5B5B5),
+                                color: lightGrey,
                                 fontFamily: "Poppins",
                                 fontSize: 18,
                               ),
@@ -462,7 +462,7 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
                 color: Colors.white,
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    const Color(0xff9C60FF),
+                    chimePurple,
                   ),
                   fixedSize: const MaterialStatePropertyAll(Size(60, 60)),
                 ),
