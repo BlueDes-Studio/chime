@@ -1,16 +1,50 @@
-# chime
+# Project Desciption
 
-A new Flutter project.
+Solving the perennial attendance hassle in our college, the Chime project offers real-time attendance tracking and notifications. Addressing the issue of missed classes due to lack of awareness, our solution empowers students to stay informed and engaged in their learning journey.
 
-## Getting Started
+## **Key highlights**
 
-This project is a starting point for a Flutter application.
+- **instant Insights** : Chime provides students with immediate access to their attendance status, allowing them to make informed decisions about attending classes.
 
-A few resources to get you started if this is your first Flutter project:
+- **Timely Notifications** : Through automated reminders, students receive notifications to help them remember and attend their classes regularly.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- **Simplicity and Efficiency** : The project offers a simple and user-friendly interface, making attendance management a hassle-free experience.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+> In essence, Chime streamlines attendance monitoring, enhances student engagement, and fosters a culture of punctuality within the college community.
+
+---
+
+# Contribution
+
+    **branch**
+    - development -> dev version with unfinished features. All experimentation is done in this branch.
+
+## **Folders**
+
+- ### lib
+  - **components** (shared and abstracted ui components)
+    - **atoms** must contain individual small scale components
+    - **molecules** may contain large scale shared components
+      - organize folders on the basis of screens
+  - **configs** (configuration files and themes)
+    - write separate config files per config type (Eg: colors go into colorSchemes.dart)
+  - **screens** (all app screens base files)
+    - organize in terms of app url format
+  - **utils** (utility functions)
+    - organize on the basis of screens
+
+## **Libraries**
+
+- **flutter_svg**
+  - used for rendering svg images
+- **simple_shadow**
+  - easy to use shadows direct compatibility with figma types
+
+---
+
+    refer to pubspec.yaml for more information
+
+## **Authors**
+
+**Design and Ideation** : Nilamadhab Marndi / Jai Khanna<br>
+**Developer** : Sai Sumith Reddy
