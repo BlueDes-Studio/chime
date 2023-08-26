@@ -90,11 +90,14 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       backgroundColor: const Color(0xffEFF1FF),
       body: Stack(
         children: [
+          // Container(
+          //   height: 20,
+          // ),
           Positioned(
-            top: 0,
+            top: 100,
             child: Container(
               width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height - 70,
+              height: MediaQuery.of(context).size.height - 70 - 100,
               color: const Color(0xffEFF1FF),
               //render all subjects in here
               // child: Center(
@@ -110,18 +113,6 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
               child: ListView(
                 scrollDirection: Axis.vertical,
                 children: [
-                  Container(
-                    height: 20,
-                  ),
-                  const Text(
-                    "Dashboard",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
                   SubjectCard(
                     subjectName: "Signals and System",
                     attendedDays: 5,
@@ -424,13 +415,55 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
             ),
           ),
 
+          //page header
+          Positioned(
+            top: 0,
+            child: SimpleShadow(
+              opacity: 0.2, // Default: 0.5
+              offset: const Offset(0, 3), // Default: Offset(2, 2)
+              sigma: 3,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 100,
+                alignment: Alignment.bottomCenter,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.only(bottom: 15),
+                  child: Text(
+                    "Dashboard",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
           // bottom navigation
           Positioned(
             top: MediaQuery.of(context).size.height - 70,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 70,
-              color: Colors.white,
+            child: SimpleShadow(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 70,
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+              ),
             ),
           ),
           Positioned(
@@ -498,9 +531,4 @@ class _DashboardState extends State<Dashboard> with TickerProviderStateMixin {
       ),
     );
   }
-  // ),
-  // ),
-  // ),
-  // ),
-  // ),
 }
