@@ -1,5 +1,6 @@
 import 'package:chime/config/colorscheme.dart';
 import 'package:chime/screens/auth/auth.dart';
+import 'package:chime/screens/calendar.dart';
 import 'package:chime/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
@@ -21,13 +22,14 @@ class Chime extends StatelessWidget {
         useMaterial3: true,
       ),
       navigatorKey: navigatorKey,
-      initialRoute: Dashboard.route,
+      initialRoute: Calendar.route,
       routes: {
         //auth pages
         AuthScreen.route: (context) => const AuthScreen(),
 
         //app screens
         Dashboard.route: (context) => const Dashboard(),
+        Calendar.route: (context) => const Calendar(),
       },
     );
   }
