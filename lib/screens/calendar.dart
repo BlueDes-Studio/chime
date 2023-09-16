@@ -1,26 +1,6 @@
+import 'package:chime/utils/calendar.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_shadow/simple_shadow.dart';
-
-String convertIntToWeekDay(int i) {
-  switch (i) {
-    case 0:
-      return "Sun";
-    case 1:
-      return "Mon";
-    case 2:
-      return "Tue";
-    case 3:
-      return "Wed";
-    case 4:
-      return "Thu";
-    case 5:
-      return "Fri";
-    case 6:
-      return "Sat";
-    default:
-      return "Sat";
-  }
-}
 
 class Calendar extends StatefulWidget {
   static String route = "/app/calendar";
@@ -147,60 +127,149 @@ class _CalendarState extends State<Calendar>
             ),
           ),
 
-          //week dates
+          //month dates
           Positioned(
             top: 120,
-            child: SizedBox(
+            child: Container(
               width: MediaQuery.of(context).size.width,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Container(
-                    width: 3,
-                  ),
-                  for (int i = 0; i < 7; i++)
-                    SimpleShadow(
-                      opacity: 0.2, // Default: 0.5
-                      offset: const Offset(0, 3), // Default: Offset(2, 2)
-                      sigma: 3,
-                      child: Container(
-                        width: 45,
-                        height: 80,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(30),
+              alignment: Alignment.center,
+              child: Container(
+                width: MediaQuery.sizeOf(context).width,
+                height: 350,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Padding(
+                            padding: EdgeInsets.only(left: 7),
+                            child: Icon(Icons.arrow_back_ios),
                           ),
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "$i",
-                              style: const TextStyle(
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20,
-                              ),
-                            ),
-                            Text(
-                              convertIntToWeekDay(i),
-                              style: const TextStyle(
-                                fontFamily: "Poppins",
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          getCurrMonth_MonthYYYY(),
+                          style: const TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 16,
+                          ),
                         ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 2),
+                            child: Icon(Icons.arrow_forward_ios),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: GridView.count(
+                        padding: EdgeInsets.zero,
+                        crossAxisCount: 7,
+                        children: [
+                          for (String day in [
+                            "Sun",
+                            "Mon",
+                            "Tue",
+                            "Wed",
+                            "Thu",
+                            "Fri",
+                            "Sat"
+                          ])
+                            SizedBox(
+                              width: 40,
+                              child: Center(
+                                child: Text(
+                                  day,
+                                  style: const TextStyle(
+                                    fontFamily: "Poppins",
+                                    color: Color(0xff474747),
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          for (DateValueReturned date
+                              in genDateArray_forMonth(DateTime.now().month))
+                            SizedBox(
+                              width: 40,
+                              child: Center(
+                                child: Text(
+                                  date.val,
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    color: date.currMonth
+                                        ? const Color(0xff474747)
+                                        : Colors.grey,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
-                  Container(
-                    width: 3,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
+
+          //week dates
+          // Positioned(
+          //   top: 120,
+          //   child: SizedBox(
+          //     width: MediaQuery.of(context).size.width,
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //       children: [
+          //         Container(
+          //           width: 3,
+          //         ),
+          //         for (int i = 0; i < 7; i++)
+          //           SimpleShadow(
+          //             opacity: 0.2, // Default: 0.5
+          //             offset: const Offset(0, 3), // Default: Offset(2, 2)
+          //             sigma: 3,
+          //             child: Container(
+          //               width: 45,
+          //               height: 80,
+          //               decoration: const BoxDecoration(
+          //                 color: Colors.white,
+          //                 borderRadius: BorderRadius.all(
+          //                   Radius.circular(30),
+          //                 ),
+          //               ),
+          //               child: Column(
+          //                 mainAxisAlignment: MainAxisAlignment.center,
+          //                 children: [
+          //                   Text(
+          //                     "$i",
+          //                     style: const TextStyle(
+          //                       fontFamily: "Poppins",
+          //                       fontWeight: FontWeight.w600,
+          //                       fontSize: 20,
+          //                     ),
+          //                   ),
+          //                   Text(
+          //                     convertIntToWeekDay(i),
+          //                     style: const TextStyle(
+          //                       fontFamily: "Poppins",
+          //                       fontSize: 14,
+          //                     ),
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //           ),
+          //         Container(
+          //           width: 3,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
 
           // bottom navigation
           Positioned(
