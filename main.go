@@ -1,13 +1,22 @@
 package main
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"fmt"
+	"os"
+
+	"chime.server/db"
+)
 
 func main() {
-	app := fiber.New()
+	println("CHIME::CORE::MYSQL::CONNECTING")
+	fmt.Printf("-> USERNAME::%v\n", DB_USERNAME)
+	fmt.Printf("-> PASSWORD::%v\n", DB_PASSWORD)
+	fmt.Printf("-> DATABASE::%v\n", DB_DATABASE)
 
-	app.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World!")
-	})
+	d := db.Setup(DB_USERNAME, DB_PASSWORD, DB_DATABASE)
 
-	app.Listen(":8080")
+	args := os.Args
+	if len(args) > 1 && args[1] == "migrate" {
+		db.Migrate(d)
+	}
 }
