@@ -96,8 +96,9 @@ func (s *Student) CreateNew(d *gorm.DB, rdb *redis.Client) {
 
 	//insert record into db
 	go func() {
-		res := d.Create(&s)
-		panic(res.Error)
+		if res := d.Create(&s); res.Error != nil {
+			panic(res.Error)
+		}
 	}()
 
 	//send email with token for auth
@@ -122,7 +123,7 @@ func (s *Student) VerifyEmail(d *gorm.DB, rdb *redis.Client, otp string) bool {
 	}
 	s.EmailVerified = otpStored == otp
 
-	go d.Model(s).Update("emailverified", s.EmailVerified)
+	go d.Model(s).Update("email_verified", s.EmailVerified)
 	return s.EmailVerified
 }
 

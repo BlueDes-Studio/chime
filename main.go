@@ -32,11 +32,4 @@ func main() {
 		db.Migrate(d)
 		os.Exit(0)
 	}
-
-	user := db.Student{
-		RollID:         "21CS8008",
-		InstituteEmail: "ssr.21u10018@btech.nitdgp.ac.in",
-		Semester:       5,
-	}
-	user.CreateNew(d, rdb)
 }
