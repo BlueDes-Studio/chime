@@ -2,22 +2,25 @@ package db
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+
+	"chime.server/util"
 )
 
 type Student struct {
-	RollID         string `gorm:"primaryKey"`
-	InstituteEmail string `gorm:"unique;not null"`
-	Password       string
+	RollID         string `gorm:"primaryKey" json:"roll_id"`
+	InstituteEmail string `gorm:"unique;not null" json:"email"`
+	// Password       string `json:"password"`
 
-	CreatedAt     time.Time
-	EmailVerified bool `gorm:"not null"`
+	CreatedAt     time.Time `json:"created_at"`
+	EmailVerified bool      `gorm:"not null" json:"email_verified"`
 
-	Semester int8
-	Branch   string
+	Semester int8   `json:"semester"`
+	Branch   string `json:"branch"`
 }
 
 type Subject struct {
@@ -43,7 +46,8 @@ func Setup(username string, password string, dbname string) *gorm.DB {
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 
 	if err != nil {
-		return nil
+		println(util.ErrDBConnectionFailed.Error())
+		os.Exit(1)
 	}
 
 	return db

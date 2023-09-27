@@ -2,6 +2,7 @@ package db
 
 import (
 	"bytes"
+	"context"
 	"fmt"
 	"net/smtp"
 	"regexp"
@@ -9,11 +10,12 @@ import (
 	"time"
 
 	"chime.server/config"
-	"github.com/google/uuid"
+	"chime.server/util"
+	redis "github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 )
 
-func generateEmailFromToken(token string) string {
+func generateEmailFromToken(rollno string, token string) string {
 	defer func() {
 		err := recover()
 		if err != nil {
@@ -27,7 +29,10 @@ func generateEmailFromToken(token string) string {
 		panic(err)
 	}
 
-	if err := t.Execute(&body, struct{ Token string }{Token: token}); err != nil {
+	if err := t.Execute(&body, struct {
+		Token  string
+		RollNo string
+	}{Token: token, RollNo: rollno}); err != nil {
 		panic(err)
 	}
 
@@ -35,7 +40,7 @@ func generateEmailFromToken(token string) string {
 	return header
 }
 
-func sendTokenToEmail(token string, email string) {
+func sendTokenToEmail(rollno string, token string, email string) {
 	defer func() {
 		err := recover()
 		if err != nil {
@@ -55,19 +60,24 @@ func sendTokenToEmail(token string, email string) {
 		auth,
 		config.GMAIL_SENDER,
 		[]string{email},
-		[]byte(generateEmailFromToken(token)),
+		[]byte(generateEmailFromToken(rollno, token)),
 	); err != nil {
-		panic(ErrEmailUnauthorised)
+		panic(util.ErrEmailUnauthorised)
 	}
 }
 
-func (s *Student) CreateNew(d *gorm.DB) error {
+func (s *Student) CreateNew(d *gorm.DB, rdb *redis.Client) {
+	defer func() {
+		err := recover()
+		println("CHIME::STUDENT::CreateNew", err)
+	}()
+
 	//regex match roll id
 	if match, err := regexp.MatchString(
 		"^[0-9]{2}[A-Za-z]{2}[0-9]{4}$",
 		s.RollID,
 	); err != nil || !match {
-		return ErrInvalidRollNo
+		panic(util.ErrInvalidRollNo)
 	}
 
 	//regex match email
@@ -75,7 +85,7 @@ func (s *Student) CreateNew(d *gorm.DB) error {
 		"^[a-z]+.[0-9]{2}u[0-9]{5}@btech.nitdgp.ac.in$",
 		s.InstituteEmail,
 	); err != nil || !match {
-		return ErrInvalidEmail
+		panic(util.ErrInvalidEmail)
 	}
 
 	//set default info
@@ -85,37 +95,54 @@ func (s *Student) CreateNew(d *gorm.DB) error {
 	s.Branch = s.RollID[2:4]
 
 	//insert record into db
-	res := d.Create(&s)
-	if res.Error != nil {
-		return res.Error
-	}
+	go func() {
+		res := d.Create(&s)
+		panic(res.Error)
+	}()
 
 	//send email with token for auth
-	otp := fmt.Sprint(time.Now().Nanosecond())[:6]
-	go sendTokenToEmail(otp, s.InstituteEmail)
+	otp := fmt.Sprint(time.Now().Nanosecond())[:5]
+	go sendTokenToEmail(s.RollID, otp, s.InstituteEmail)
 
-	return nil
+	//store token in redis for later auth
+	go func() {
+		if err := rdb.Set(context.Background(), s.RollID, otp, time.Duration(10*time.Minute)).Err(); err != nil {
+			println(util.ErrRedisSetFailed.Error())
+		}
+	}()
 }
 
-func (s *Student) VerifyEmail() {
-	s.EmailVerified = true
-}
+func (s *Student) VerifyEmail(d *gorm.DB, rdb *redis.Client, otp string) bool {
+	otpStored, err := rdb.Get(context.Background(), s.RollID).Result()
+	if err != nil {
+		println(util.ErrRedisGetFailed.Error())
+		s.EmailVerified = false
 
-func (s *Student) SetCredentials(
-	password string,
-) error {
-	if len(password) < 10 || len(password) > 20 {
-		return ErrInvalidPasswordLength
+		return false
 	}
+	s.EmailVerified = otpStored == otp
 
-	if match, err := regexp.MatchString(
-		"[`!@#$%^&*()_+\\-=\\[\\]{};:|,.<>?~]",
-		password,
-	); err != nil || !match {
-		return ErrInvalidPasswordNoSpecialChars
-	}
-
-	s.Password = password
-
-	return nil
+	go d.Model(s).Update("emailverified", s.EmailVerified)
+	return s.EmailVerified
 }
+
+// func (s *Student) SetCredentials(
+// 	d *gorm.DB,
+// 	password string,
+// ) error {
+// 	if len(password) < 10 || len(password) > 20 {
+// 		return util.ErrInvalidPasswordLength
+// 	}
+//
+// 	if match, err := regexp.MatchString(
+// 		"[`!@#$%^&*()_+\\-=\\[\\]{};:|,.<>?~]",
+// 		password,
+// 	); err != nil || !match {
+// 		return util.ErrInvalidPasswordNoSpecialChars
+// 	}
+//
+// 	s.Password = password
+// 	go d.Model(s).Update("password", s.Password)
+//
+// 	return nil
+// }

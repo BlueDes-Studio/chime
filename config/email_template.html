@@ -5,8 +5,32 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width-device-width, initial-scale=1.0">
         <title>Document</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
     </head>
+
     <body>
-        <h1>{{ .Token }}</h1>
+        <script>
+            function copyOTP() {
+   // Copy the text inside the text field
+                navigator.clipboard.writeText({{ .Token }});
+}
+        </script>
+
+        <h1 style="font-family:'Montserrat', sans-serif;font-size: 50px">Your OTP for Chime</h1>
+        <h4 style="font-family:'Inter', sans-serif;color:grey">Your just one step away to release one of your stress point</h4>
+        <br/>
+        <h4 style="font-family:'Inter', sans-serif;color:grey">Roll no: {{ .RollNo }}</h4>
+        <br/>
+        <h4 style="font-family:'Inter', sans-serif;color:grey">
+Thank you for choosing Chime! To ensure the security of your account, we require you to verify your email address by entering the OTP (One-Time Password) provided below:
+        </h4>
+
+        <h1 style="font-family:'Inter', sans-serif;">OTP Code: {{ .Token }}</h1>
+
+        <h4 style="font-family:'Inter', sans-serif;color:grey">Please enter this OTP code within the next 10 minutes to complete your registration or login process. If you didn't request this OTP, please ignore this email.</h4>
+
     </body>
 </html>

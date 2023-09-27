@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 
@@ -16,10 +17,20 @@ func main() {
 
 	d := db.Setup(config.DB_USERNAME, config.DB_PASSWORD, config.DB_DATABASE)
 
+	println("CHIME::CORE::REDIS::CONNECTING")
+	fmt.Printf("-> HOST::%v\n", config.REDIS_HOST)
+	fmt.Printf("-> PASSWORD::%v\n", config.REDIS_PASSWORD)
+
+	rdb := config.RedisSetup()
+
 	args := os.Args
 	if len(args) > 1 && args[1] == "migrate" {
+		if err := rdb.Ping(context.Background()); err != nil {
+			os.Exit(1)
+		}
+
 		db.Migrate(d)
-		return
+		os.Exit(0)
 	}
 
 	user := db.Student{
@@ -27,5 +38,5 @@ func main() {
 		InstituteEmail: "ssr.21u10018@btech.nitdgp.ac.in",
 		Semester:       5,
 	}
-	user.CreateNew(d)
+	user.CreateNew(d, rdb)
 }
