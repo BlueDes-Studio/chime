@@ -7,6 +7,10 @@ import (
 
 	"chime.server/config"
 	"chime.server/db"
+	"chime.server/handlers"
+	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 func main() {
@@ -32,4 +36,20 @@ func main() {
 		db.Migrate(d)
 		os.Exit(0)
 	}
+
+	app := fiber.New()
+
+	//middlewares
+	app.Use(cors.New(cors.Config{
+		AllowOrigins:     "*",
+		AllowCredentials: true,
+		AllowMethods:     "GET,POST,DELETE",
+	}))
+	app.Use(logger.New(logger.Config{
+		Format: "[${ip}]:${port} ${status} - ${method} ${path}\n",
+	}))
+
+	handlers.AttachAuthHandlers(app, d, rdb)
+
+	app.Listen(":8080")
 }

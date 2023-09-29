@@ -12,15 +12,15 @@ import (
 )
 
 type Student struct {
-	RollID         string `gorm:"primaryKey" json:"roll_id"`
-	InstituteEmail string `gorm:"unique;not null" json:"email"`
-	// Password       string `json:"password"`
+	RollID         string `gorm:"primaryKey"`
+	InstituteEmail string `gorm:"unique;not null"`
+	Password       string
 
-	CreatedAt     time.Time `json:"created_at"`
-	EmailVerified bool      `gorm:"not null" json:"email_verified"`
+	CreatedAt     time.Time
+	EmailVerified bool `gorm:"not null"`
 
-	Semester int8   `json:"semester"`
-	Branch   string `json:"branch"`
+	Semester int8
+	Branch   string
 }
 
 type Subject struct {

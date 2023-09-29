@@ -127,23 +127,29 @@ func (s *Student) VerifyEmail(d *gorm.DB, rdb *redis.Client, otp string) bool {
 	return s.EmailVerified
 }
 
-// func (s *Student) SetCredentials(
-// 	d *gorm.DB,
-// 	password string,
-// ) error {
-// 	if len(password) < 10 || len(password) > 20 {
-// 		return util.ErrInvalidPasswordLength
-// 	}
-//
-// 	if match, err := regexp.MatchString(
-// 		"[`!@#$%^&*()_+\\-=\\[\\]{};:|,.<>?~]",
-// 		password,
-// 	); err != nil || !match {
-// 		return util.ErrInvalidPasswordNoSpecialChars
-// 	}
-//
-// 	s.Password = password
-// 	go d.Model(s).Update("password", s.Password)
-//
-// 	return nil
-// }
+func (s *Student) SetCredentials(
+	d *gorm.DB,
+	password string,
+) error {
+	if len(password) < 10 || len(password) > 20 {
+		return util.ErrInvalidPasswordLength
+	}
+
+	if match, err := regexp.MatchString(
+		"[`!@#$%^&*()_+\\-=\\[\\]{};:|,.<>?~]",
+		password,
+	); err != nil || !match {
+		return util.ErrInvalidPasswordNoSpecialChars
+	}
+
+	d.Select("email_verified").First(s)
+
+	if s.EmailVerified {
+		s.Password = password
+		go d.Model(s).Update("password", s.Password)
+
+		return nil
+	}
+
+	return util.ErrEmailUnauthorised
+}
